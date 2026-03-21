@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AyurScan — Ancient Wisdom, Modern Science</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep: #1a3a2a;
+      --green-mid: #2d6a4f;
+      --green-light: #52b788;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --cream: #f5f0e8;
+      --cream-dark: #ede5d0;
+      --text-dark: #1a1a1a;
+      --text-mid: #4a4a4a;
+      --text-light: #8a8a8a;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(245,240,232,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 600;
+      color: var(--green-deep);
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      text-decoration: none; color: var(--text-mid);
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em;
+      text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--green-mid); }
+    .nav-team {
+      font-size: 0.78rem; color: var(--text-light);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: 6rem 2rem 4rem;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(45,106,79,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(201,168,76,0.1) 0%, transparent 60%),
+        radial-gradient(ellipse 30% 30% at 20% 70%, rgba(82,183,136,0.08) 0%, transparent 50%);
+    }
+    .mandala {
+      position: absolute; width: 600px; height: 600px;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      opacity: 0.04;
+      animation: rotateSlow 60s linear infinite;
+    }
+    @keyframes rotateSlow { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.3);
+      padding: 0.4rem 1rem; border-radius: 50px;
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 2rem;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-badge::before { content: '✦'; font-size: 0.6rem; }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      font-weight: 300; line-height: 1.05;
+      text-align: center; color: var(--green-deep);
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+    .hero-title em {
+      font-style: italic; color: var(--green-mid);
+      display: block;
+    }
+    .hero-title .gold { color: var(--gold); font-style: italic; }
+
+    .hero-sub {
+      margin-top: 1.5rem; max-width: 520px; text-align: center;
+      font-size: 1rem; color: var(--text-mid); line-height: 1.7; font-weight: 300;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .btn-primary {
+      background: var(--green-deep); color: var(--cream);
+      padding: 0.9rem 2.2rem; border-radius: 50px; border: none;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+      letter-spacing: 0.03em; cursor: pointer;
+      transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-primary:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,58,42,0.2); }
+    .btn-secondary {
+      background: transparent; color: var(--green-deep);
+      padding: 0.9rem 2.2rem; border-radius: 50px;
+      border: 1.5px solid rgba(26,58,42,0.3);
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+      cursor: pointer; transition: all 0.3s; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-secondary:hover { border-color: var(--green-mid); color: var(--green-mid); transform: translateY(-2px); }
+
+    .hero-stats {
+      margin-top: 4rem; display: flex; gap: 3rem; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-weight: 600; color: var(--green-deep);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.75rem; color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.3rem; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SCAN SECTION ── */
+    #scan {
+      padding: 6rem 2rem;
+      background: var(--green-deep);
+      position: relative; overflow: hidden;
+    }
+    #scan::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 30% 50%, rgba(82,183,136,0.08) 0%, transparent 60%);
+    }
+    .scan-inner { max-width: 800px; margin: 0 auto; position: relative; }
+    .section-label {
+      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,76,0.3); }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 300;
+      color: var(--cream); margin-bottom: 0.8rem; line-height: 1.2;
+    }
+    .section-title em { font-style: italic; color: var(--green-light); }
+    .section-sub { color: rgba(245,240,232,0.6); font-size: 0.95rem; line-height: 1.7; margin-bottom: 3rem; font-weight: 300; }
+
+    /* Upload Zone */
+    .upload-zone {
+      border: 2px dashed rgba(201,168,76,0.3);
+      border-radius: 20px; padding: 3rem 2rem;
+      text-align: center; cursor: pointer;
+      transition: all 0.3s; position: relative;
+      background: rgba(255,255,255,0.03);
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.05);
+    }
+    .upload-icon {
+      width: 72px; height: 72px; margin: 0 auto 1.5rem;
+      background: rgba(82,183,136,0.1); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+    }
+    .upload-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--cream); margin-bottom: 0.5rem; }
+    .upload-sub { color: rgba(245,240,232,0.5); font-size: 0.85rem; }
+    .upload-sub span { color: var(--gold-light); }
+    #fileInput { display: none; }
+
+    /* Preview */
+    .preview-box {
+      display: none; position: relative; border-radius: 20px; overflow: hidden;
+      background: rgba(255,255,255,0.05);
+    }
+    .preview-box img { width: 100%; max-height: 350px; object-fit: cover; display: block; }
+    .preview-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,58,42,0.8) 0%, transparent 50%);
+      display: flex; align-items: flex-end; padding: 1.5rem;
+    }
+    .preview-filename { color: var(--cream); font-size: 0.85rem; opacity: 0.8; }
+    .change-photo {
+      position: absolute; top: 1rem; right: 1rem;
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2); color: white;
+      padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.8rem;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .change-photo:hover { background: rgba(255,255,255,0.25); }
+
+    .scan-btn {
+      width: 100%; margin-top: 1.5rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      color: var(--green-deep); padding: 1.1rem;
+      border: none; border-radius: 50px; font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 500; letter-spacing: 0.05em;
+      cursor: pointer; transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    }
+    .scan-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(201,168,76,0.3); }
+    .scan-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* Loading */
+    .loading-box {
+      display: none; text-align: center; padding: 3rem;
+    }
+    .loader {
+      width: 60px; height: 60px; margin: 0 auto 1.5rem;
+      border: 3px solid rgba(201,168,76,0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { color: var(--cream); font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; }
+    .loading-sub { color: rgba(245,240,232,0.5); font-size: 0.85rem; margin-top: 0.5rem; }
+
+    /* API URL input */
+    .api-config {
+      margin-bottom: 2rem; padding: 1.2rem 1.5rem;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 12px;
+    }
+    .api-config label { font-size: 0.75rem; color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-bottom: 0.6rem; }
+    .api-config input {
+      width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px; padding: 0.7rem 1rem; color: var(--cream);
+      font-family: 'DM Sans', sans-serif; font-size: 0.85rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .api-config input:focus { border-color: var(--gold); }
+    .api-config input::placeholder { color: rgba(245,240,232,0.3); }
+
+    /* ── RESULTS ── */
+    #results { display: none; padding: 6rem 2rem; background: var(--cream); }
+    .results-inner { max-width: 900px; margin: 0 auto; }
+
+    .result-header {
+      display: flex; align-items: flex-start; gap: 2rem;
+      margin-bottom: 3rem; flex-wrap: wrap;
+    }
+    .result-plant-name {
+      flex: 1;
+    }
+    .result-label { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+    .result-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 300;
+      color: var(--green-deep); line-height: 1.1;
+    }
+    .result-sci { font-style: italic; color: var(--text-light); font-size: 1rem; margin-top: 0.3rem; }
+    .confidence-badge {
+      background: var(--green-deep); color: var(--cream);
+      padding: 0.6rem 1.4rem; border-radius: 50px;
+      font-size: 0.85rem; font-weight: 500;
+      display: flex; align-items: center; gap: 0.4rem;
+      align-self: flex-start;
+    }
+    .confidence-badge .dot { width: 8px; height: 8px; background: var(--green-light); border-radius: 50%; }
+
+    .result-image-wrap {
+      border-radius: 16px; overflow: hidden; margin-bottom: 2rem;
+      max-height: 280px;
+    }
+    .result-image-wrap img { width: 100%; height: 280px; object-fit: cover; display: block; }
+
+    /* Info Cards */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
+    .info-card {
+      background: white; border-radius: 16px; padding: 1.5rem;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .info-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .card-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+    .card-title { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.8rem; }
+    .card-content { font-size: 0.9rem; color: var(--text-mid); line-height: 1.6; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      background: rgba(45,106,79,0.08); color: var(--green-mid);
+      padding: 0.3rem 0.7rem; border-radius: 50px; font-size: 0.78rem;
+    }
+    .tag.gold { background: rgba(201,168,76,0.1); color: #9a7a2a; }
+    .tag.red { background: rgba(180,60,60,0.08); color: #943a3a; }
+
+    .benefit-list { list-style: none; }
+    .benefit-list li {
+      padding: 0.4rem 0; font-size: 0.88rem; color: var(--text-mid);
+      border-bottom: 1px solid rgba(0,0,0,0.04); line-height: 1.5;
+      display: flex; gap: 0.6rem;
+    }
+    .benefit-list li::before { content: '✦'; color: var(--gold); font-size: 0.6rem; margin-top: 0.35rem; flex-shrink: 0; }
+    .benefit-list li:last-child { border-bottom: none; }
+
+    .dosage-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 0.87rem; }
+    .dosage-item:last-child { border-bottom: none; }
+    .dosage-key { color: var(--text-light); text-transform: capitalize; }
+    .dosage-val { color: var(--green-mid); font-weight: 500; }
+
+    .scan-again-btn {
+      width: 100%; margin-top: 2.5rem;
+      background: var(--green-deep); color: var(--cream);
+      padding: 1rem; border: none; border-radius: 50px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500;
+      cursor: pointer; transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .scan-again-btn:hover { background: var(--green-mid); transform: translateY(-2px); }
+
+    /* Error */
+    .error-box {
+      display: none; background: rgba(180,60,60,0.1); border: 1px solid rgba(180,60,60,0.2);
+      border-radius: 12px; padding: 1.2rem 1.5rem; color: #943a3a;
+      font-size: 0.9rem; margin-top: 1rem; text-align: center;
+    }
+
+    /* ── PLANTS ── */
+    #plants { padding: 6rem 2rem; background: var(--cream-dark); }
+    .plants-inner { max-width: 1000px; margin: 0 auto; }
+    .plants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin-top: 3rem; }
+    .plant-chip {
+      background: white; border-radius: 12px; padding: 1.2rem 1rem;
+      text-align: center; border: 1px solid rgba(0,0,0,0.06);
+      transition: all 0.25s; cursor: default;
+    }
+    .plant-chip:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-color: var(--green-light); }
+    .plant-emoji { font-size: 2rem; margin-bottom: 0.6rem; }
+    .plant-chip-name { font-size: 0.85rem; font-weight: 500; color: var(--green-deep); }
+    .plant-chip-sci { font-size: 0.7rem; color: var(--text-light); font-style: italic; margin-top: 0.2rem; }
+
+    /* ── ABOUT ── */
+    #about { padding: 6rem 2rem; background: var(--green-deep); }
+    .about-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+    .about-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 300; color: var(--cream); margin-bottom: 1.5rem; }
+    .about-text { color: rgba(245,240,232,0.65); font-size: 0.95rem; line-height: 1.8; font-weight: 300; margin-bottom: 2rem; }
+    .team-badge {
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25);
+      padding: 0.8rem 2rem; border-radius: 50px;
+    }
+    .team-badge-label { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,240,232,0.4); }
+    .team-badge-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--gold-light); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111; color: rgba(255,255,255,0.3);
+      text-align: center; padding: 1.5rem;
+      font-size: 0.78rem; letter-spacing: 0.05em;
+    }
+    footer span { color: var(--gold); }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .result-header { flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Ayur<span>Scan</span></div>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#scan">Scan</a>
+    <a href="#plants">Plants</a>
+    <a href="#about">About</a>
+  </div>
+  <div class="nav-team">Team Royalance</div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <svg class="mandala" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="90" fill="none" stroke="#2d6a4f" stroke-width="0.5"/>
+    <circle cx="100" cy="100" r="70" fill="none" stroke="#2d6a4f" stroke-width="0.5"/>
+    <circle cx="100" cy="100" r="50" fill="none" stroke="#2d6a4f" stroke-width="0.5"/>
+    <circle cx="100" cy="100" r="30" fill="none" stroke="#2d6a4f" stroke-width="0.5"/>
+    <line x1="10" y1="100" x2="190" y2="100" stroke="#2d6a4f" stroke-width="0.3"/>
+    <line x1="100" y1="10" x2="100" y2="190" stroke="#2d6a4f" stroke-width="0.3"/>
+    <line x1="27" y1="27" x2="173" y2="173" stroke="#2d6a4f" stroke-width="0.3"/>
+    <line x1="173" y1="27" x2="27" y2="173" stroke="#2d6a4f" stroke-width="0.3"/>
+    <polygon points="100,15 120,85 190,85 135,130 155,200 100,155 45,200 65,130 10,85 80,85" fill="none" stroke="#c9a84c" stroke-width="0.3"/>
+  </svg>
+
+  <div class="hero-badge">Ayurveda meets AI</div>
+  <h1 class="hero-title">
+    Scan a Leaf.<br>
+    <em>Unlock <span class="gold">Ancient</span></em>
+    Wisdom.
+  </h1>
+  <p class="hero-sub">
+    Point your camera at any medicinal plant and instantly discover its Ayurvedic properties, benefits, dosage, and healing traditions — powered by deep learning.
+  </p>
+  <div class="hero-cta">
+    <a href="#scan" class="btn-primary">🌿 Scan a Plant</a>
+    <a href="#plants" class="btn-secondary">View All Plants →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">10</div><div class="stat-label">Medicinal Plants</div></div>
+    <div class="stat"><div class="stat-num">81%</div><div class="stat-label">Accuracy</div></div>
+    <div class="stat"><div class="stat-num">5000+</div><div class="stat-label">Years of Wisdom</div></div>
+  </div>
+</section>
+
+<!-- SCAN -->
+<section id="scan">
+  <div class="scan-inner">
+    <div class="section-label">Scan</div>
+    <h2 class="section-title">Identify Your <em>Plant</em></h2>
+    <p class="section-sub">Upload a clear photo of the plant leaf or fruit. Our AI will identify it and reveal its complete Ayurvedic profile.</p>
+
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon">🌿</div>
+      <div class="upload-title">Drop your plant photo here</div>
+      <p class="upload-sub">or <span>click to browse</span> · JPG, PNG, WEBP</p>
+      <input type="file" id="fileInput" accept="image/*"/>
+    </div>
+
+    <div class="preview-box" id="previewBox">
+      <img id="previewImg" src="" alt="Preview"/>
+      <div class="preview-overlay">
+        <span class="preview-filename" id="previewFilename"></span>
+      </div>
+      <button class="change-photo" onclick="resetUpload()">Change Photo</button>
+    </div>
+
+    <div class="loading-box" id="loadingBox">
+      <div class="loader"></div>
+      <div class="loading-text">Analyzing your plant…</div>
+      <div class="loading-sub">Consulting ancient Ayurvedic knowledge</div>
+    </div>
+
+    <div class="error-box" id="errorBox"></div>
+
+    <button class="scan-btn" id="scanBtn" onclick="scanPlant()" disabled>
+      ✦ Reveal Ayurvedic Profile
+    </button>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="results-inner">
+    <div class="section-label" style="color:var(--gold);">Result</div>
+
+    <div class="result-header">
+      <div class="result-plant-name">
+        <div class="result-label">Identified Plant</div>
+        <div class="result-name" id="resultName">—</div>
+        <div class="result-sci" id="resultSci"></div>
+      </div>
+      <div class="confidence-badge">
+        <div class="dot"></div>
+        <span id="resultConfidence">—% Match</span>
+      </div>
+    </div>
+
+    <div class="result-image-wrap" id="resultImageWrap" style="display:none;">
+      <img id="resultImage" src="" alt="Scanned plant"/>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid"></div>
+
+    <button class="scan-again-btn" onclick="scanAgain()">↺ Scan Another Plant</button>
+
+    <div style="margin-top:1.5rem; padding:1rem 1.5rem; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.25); border-radius:12px; display:flex; gap:0.8rem; align-items:flex-start;">
+      <span style="font-size:1.2rem;">⚕️</span>
+      <p style="font-size:0.82rem; color:var(--text-mid); line-height:1.6;">
+        <strong style="color:var(--green-deep);">Medical Disclaimer:</strong> The information provided by AyurScan is for educational purposes only and is based on traditional Ayurvedic knowledge. It is <strong>not a substitute for professional medical advice</strong>. Always consult a qualified Ayurvedic practitioner or doctor before using any herb for medicinal purposes.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PLANTS -->
+<section id="plants">
+  <div class="plants-inner">
+    <div class="section-label" style="color:var(--gold); --after-bg: rgba(201,168,76,0.3);">Supported Plants</div>
+    <h2 class="section-title" style="color:var(--green-deep);">10 Sacred <em style="color:var(--green-mid);">Herbs</em></h2>
+    <p style="color:var(--text-mid); font-size:0.95rem; font-weight:300; line-height:1.7;">
+      Our model currently recognizes these ten foundational Ayurvedic plants used across thousands of years of healing traditions.
+    </p>
+    <div class="plants-grid">
+      <div class="plant-chip"><div class="plant-emoji">🌵</div><div class="plant-chip-name">Aloe Vera</div><div class="plant-chip-sci">Aloe barbadensis</div></div>
+      <div class="plant-chip"><div class="plant-emoji">🫐</div><div class="plant-chip-name">Amla</div><div class="plant-chip-sci">Phyllanthus emblica</div></div>
+      <div class="plant-chip"><div class="plant-emoji">🌿</div><div class="plant-chip-name">Ashwagandha</div><div class="plant-chip-sci">Withania somnifera</div></div>
+      <div class="plant-chip"><div class="plant-emoji">🍃</div><div class="plant-chip-name">Brahmi</div><div class="plant-chip-sci">Bacopa monnieri</div></div>
+      <div class="plant-chip"><div class="plant-emoji">🍛</div><div class="plant-chip-name">Curry Leaf</div><div class="plant-chip-sci">Murraya koenigii</div></div>
+      <div class="plant-chip"><div class="plant-emoji">💚</div><div class="plant-chip-name">Giloy</div><div class="plant-chip-sci">Tinospora cordifolia</div></div>
+      <div class="plant-chip"><div class="plant-emoji">🥬</div><div class="plant-chip-name">Moringa</div><div class="plant-chip-sci">Moringa oleifera</div></div>
+      <div class="plant-chip"><div class="plant-emoji">🌳</div><div class="plant-chip-name">Neem</div><div class="plant-chip-sci">Azadirachta indica</div></div>
+      <div class="plant-chip"><div class="plant-emoji">🌱</div><div class="plant-chip-name">Tulsi</div><div class="plant-chip-sci">Ocimum sanctum</div></div>
+      <div class="plant-chip"><div class="plant-emoji">🟡</div><div class="plant-chip-name">Turmeric</div><div class="plant-chip-sci">Curcuma longa</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <h2 class="about-title">Built with Purpose</h2>
+    <p class="about-text">
+      AyurScan bridges the gap between traditional Ayurvedic knowledge and modern technology. 
+      Our deep learning model, trained on thousands of plant images, makes ancient healing wisdom 
+      accessible to everyone — instantly, accurately, and beautifully.
+    </p>
+    <div class="team-badge">
+      <div>
+        <div class="team-badge-label">Created by</div>
+        <div class="team-badge-name">Team Royalance</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <span>AyurScan</span> · Team Royalance · Ancient Wisdom, Modern Science</p>
+</footer>
+
+<script>
+  const API_URL = 'https://Shrastu-Major.hf.space';
+  let selectedFile = null;
+
+  // Drag & drop
+  const uploadZone = document.getElementById('uploadZone');
+  uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault(); uploadZone.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) handleFile(file);
+  });
+
+  document.getElementById('fileInput').addEventListener('change', e => {
+    if (e.target.files[0]) handleFile(e.target.files[0]);
+  });
+
+  function handleFile(file) {
+    selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      document.getElementById('previewImg').src = ev.target.result;
+      document.getElementById('previewFilename').textContent = file.name;
+      document.getElementById('uploadZone').style.display = 'none';
+      document.getElementById('previewBox').style.display = 'block';
+      document.getElementById('scanBtn').disabled = false;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function resetUpload() {
+    selectedFile = null;
+    document.getElementById('uploadZone').style.display = 'block';
+    document.getElementById('previewBox').style.display = 'none';
+    document.getElementById('scanBtn').disabled = true;
+    document.getElementById('fileInput').value = '';
+    document.getElementById('errorBox').style.display = 'none';
+  }
+
+  async function scanPlant() {
+    if (!selectedFile) return;
+
+    // Show loading
+    document.getElementById('previewBox').style.display = 'none';
+    document.getElementById('loadingBox').style.display = 'block';
+    document.getElementById('scanBtn').disabled = true;
+    document.getElementById('errorBox').style.display = 'none';
+
+    const formData = new FormData();
+    formData.append('image', selectedFile);
+
+    try {
+      const res = await fetch(`${API_URL}/api/scan`, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      document.getElementById('loadingBox').style.display = 'none';
+
+      if (!data.success) {
+        showError(data.message || 'Plant not recognized. Please try a clearer photo.');
+        document.getElementById('previewBox').style.display = 'block';
+        document.getElementById('scanBtn').disabled = false;
+        return;
+      }
+
+      showResults(data);
+    } catch (err) {
+      document.getElementById('loadingBox').style.display = 'none';
+      document.getElementById('previewBox').style.display = 'block';
+      document.getElementById('scanBtn').disabled = false;
+      showError('Could not connect to API. Please try again.');
+    }
+  }
+
+  function showError(msg) {
+    const eb = document.getElementById('errorBox');
+    eb.textContent = '⚠ ' + msg;
+    eb.style.display = 'block';
+  }
+
+  function showResults(data) {
+    const plant = data.plant || {};
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('resultName').textContent = plant.common_name || data.label || '—';
+    document.getElementById('resultSci').textContent = plant.scientific_name || '';
+    document.getElementById('resultConfidence').textContent = `${data.confidence}% Match`;
+
+    // Show scanned image
+    const imgWrap = document.getElementById('resultImageWrap');
+    const imgEl = document.getElementById('resultImage');
+    if (selectedFile) {
+      imgEl.src = URL.createObjectURL(selectedFile);
+      imgWrap.style.display = 'block';
+    }
+
+    // Build cards
+    const grid = document.getElementById('cardsGrid');
+    grid.innerHTML = '';
+
+    // Parts Used
+    if (plant.parts_used?.length) {
+      grid.appendChild(makeCard('🌱', 'Parts Used', `
+        <div class="tag-list">${plant.parts_used.map(p => `<span class="tag">${p}</span>`).join('')}</div>
+      `));
+    }
+
+    // Benefits
+    if (plant.ayurvedic_benefits?.length) {
+      grid.appendChild(makeCard('✦', 'Ayurvedic Benefits', `
+        <ul class="benefit-list">${plant.ayurvedic_benefits.map(b => `<li>${b}</li>`).join('')}</ul>
+      `));
+    }
+
+    // How to use
+    const howToUse = plant.how_to_use || plant.usage_method;
+    if (howToUse && Object.keys(howToUse).length) {
+      const content = Array.isArray(howToUse)
+        ? `<ul class="benefit-list">${howToUse.map(h => `<li>${h}</li>`).join('')}</ul>`
+        : Object.entries(howToUse).map(([k,v]) => `<div class="dosage-item"><span class="dosage-key">${k.replace(/_/g,' ')}</span><span style="color:var(--text-mid);font-size:0.83rem;text-align:right;max-width:60%">${v}</span></div>`).join('');
+      grid.appendChild(makeCard('🧪', 'How to Use', content));
+    }
+
+    // Dosage
+    if (plant.dosage && Object.keys(plant.dosage).length) {
+      const dosageContent = Object.entries(plant.dosage)
+        .map(([k,v]) => `<div class="dosage-item"><span class="dosage-key">${k.replace(/_/g,' ')}</span><span class="dosage-val">${v}</span></div>`)
+        .join('');
+      grid.appendChild(makeCard('💊', 'Dosage', dosageContent));
+    }
+
+    // Toxicity
+    const tox = plant.toxicity || plant.toxicity_alert;
+    if (tox) {
+      let toxContent = '';
+      if (Array.isArray(tox)) {
+        toxContent = `<ul class="benefit-list">${tox.map(t => `<li>${t}</li>`).join('')}</ul>`;
+      } else if (tox.warnings?.length) {
+        const safe = tox.is_toxic === false ? `<span class="tag" style="margin-bottom:0.8rem;display:inline-block">✅ Generally Safe</span><br>` : '';
+        toxContent = safe + `<ul class="benefit-list">${tox.warnings.map(w => `<li>${w}</li>`).join('')}</ul>`;
+      }
+      if (toxContent) grid.appendChild(makeCard('⚠️', 'Toxicity & Safety', toxContent));
+    }
+
+    // Allergy risks
+    const allergy = plant.allergy_risks || plant.allergic_risk;
+    if (allergy?.length) {
+      grid.appendChild(makeCard('🚨', 'Allergy Risks', `
+        <div class="tag-list">${allergy.map(a => `<span class="tag red">${a}</span>`).join('')}</div>
+      `));
+    }
+
+    // Family
+    if (plant.family) {
+      grid.appendChild(makeCard('🏷️', 'Plant Family', `<div class="card-content">${plant.family}</div>`));
+    }
+
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function makeCard(icon, title, content) {
+    const card = document.createElement('div');
+    card.className = 'info-card';
+    card.innerHTML = `<div class="card-icon">${icon}</div><div class="card-title">${title}</div><div>${content}</div>`;
+    return card;
+  }
+
+  function scanAgain() {
+    document.getElementById('results').style.display = 'none';
+    resetUpload();
+    document.getElementById('scan').scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
