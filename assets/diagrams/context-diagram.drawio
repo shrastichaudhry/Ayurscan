@@ -1,0 +1,67 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="0HM5dEQwGLA-mLzfHifs">
+    <mxGraphModel dx="1030" dy="1453" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="R8_aeU5nv1M42kvlOVLY-8" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontFamily=Helvetica;fontSize=15;fontColor=default;" value="AyurScan&lt;div&gt;System-Context Diagram(C4 Level 1)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="300" x="280" y="-780" as="geometry" />
+        </mxCell>
+        <mxCell id="Crwwy50-VmjPt5x9JbPr-9" edge="1" parent="1" source="R8_aeU5nv1M42kvlOVLY-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="R8_aeU5nv1M42kvlOVLY-10" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="R8_aeU5nv1M42kvlOVLY-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=20;fontColor=default;fillColor=default;" value="User" vertex="1">
+          <mxGeometry height="60" width="120" x="320" y="-690" as="geometry" />
+        </mxCell>
+        <mxCell id="Crwwy50-VmjPt5x9JbPr-10" edge="1" parent="1" source="R8_aeU5nv1M42kvlOVLY-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Crwwy50-VmjPt5x9JbPr-3" value="sends image&lt;div&gt;receive prediction&lt;/div&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="R8_aeU5nv1M42kvlOVLY-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=18;fontColor=default;fillColor=default;" value="&amp;nbsp; &amp;nbsp; &amp;nbsp; AyurScan&amp;nbsp;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp;AI powered Medicinal plant Identification Platform&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="490" x="160" y="-580" as="geometry" />
+        </mxCell>
+        <mxCell id="Crwwy50-VmjPt5x9JbPr-3" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="FastAPI AI Service&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Image classification&lt;br&gt;&lt;div&gt;Prediction API&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="110" x="380" y="-460" as="geometry" />
+        </mxCell>
+        <mxCell id="Crwwy50-VmjPt5x9JbPr-4" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="GitHub&amp;nbsp;&lt;div&gt;&lt;br&gt;&lt;div&gt;Source Code Repository&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="120" x="650" y="-460" as="geometry" />
+        </mxCell>
+        <mxCell id="Crwwy50-VmjPt5x9JbPr-11" edge="1" parent="1" source="Crwwy50-VmjPt5x9JbPr-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Crwwy50-VmjPt5x9JbPr-4" value="Push the code">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Crwwy50-VmjPt5x9JbPr-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Developer" vertex="1">
+          <mxGeometry height="60" width="130" x="660" y="-280" as="geometry" />
+        </mxCell>
+        <mxCell id="Crwwy50-VmjPt5x9JbPr-13" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="Crwwy50-VmjPt5x9JbPr-4" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="-520" />
+              <mxPoint x="630" y="-520" />
+              <mxPoint x="630" y="-500" />
+              <mxPoint x="680" y="-500" />
+            </Array>
+            <mxPoint x="580" y="-500" as="sourcePoint" />
+            <mxPoint x="680" y="-470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Crwwy50-VmjPt5x9JbPr-14" connectable="0" parent="Crwwy50-VmjPt5x9JbPr-13" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" value="Store source code" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Crwwy50-VmjPt5x9JbPr-17" edge="1" parent="1" source="R8_aeU5nv1M42kvlOVLY-10" style="endArrow=classic;html=1;rounded=0;entryX=0.636;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.128;exitY=1.03;exitDx=0;exitDy=0;exitPerimeter=0;" value="Store data">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="-500" />
+            </Array>
+            <mxPoint x="500" y="-460" as="sourcePoint" />
+            <mxPoint x="219.96000000000004" y="-460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Crwwy50-VmjPt5x9JbPr-18" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="PostgreSQL&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Stores Application Data&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="120" x="170" y="-460" as="geometry" />
+        </mxCell>
+        <mxCell id="Crwwy50-VmjPt5x9JbPr-19" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Version : 1.0&lt;div&gt;Author: Shrasti&lt;/div&gt;&lt;div&gt;July 2026&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="120" x="810" y="-190" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
