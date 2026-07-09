@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      UserRole @default(USER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  predictions PredictionHistory[]
+  favorites  FavoritePlant[]
+}
+
+model Plant {
+  id               String   @id @default(cuid())
+  commonName       String
+  scientificName   String   @unique
+  family           String
+  medicinalUses    String
+  precautions      String
+  imageUrl         String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  predictions PredictionHistory[]
+  favorites   FavoritePlant[]
+}
+
+model PredictionHistory {
+  id          String   @id @default(cuid())
+  confidence  Float
+  imageUrl    String
+  predictedAt DateTime @default(now())
+
+  userId  String
+  plantId String
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plant Plant @relation(fields: [plantId], references: [id], onDelete: Cascade)
+}
+
+model FavoritePlant {
+  id String @id @default(cuid())
+
+  userId  String
+  plantId String
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plant Plant @relation(fields: [plantId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, plantId])
+}
