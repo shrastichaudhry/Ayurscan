@@ -37,7 +37,16 @@ async function bootstrap() {
     .setTitle('AyurScan API')
     .setDescription('AI-powered Medicinal Plant Identification API')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth(
+      {
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      name: 'Authorization',
+      in: 'header',
+    },
+    'JWT-auth',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
