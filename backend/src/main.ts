@@ -1,15 +1,42 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {
+  DocumentBuilder,
+  SwaggerModule,
+} from '@nestjs/swagger';
 import helmet from 'helmet';
 import compression from 'compression';
+
 import { AppModule } from './app.module';
 
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+
+import {
+  AppLoggerService,
+} from './common/logger/app-logger.service';
+
+import {
+  HttpLoggingInterceptor,
+} from './common/interceptors/http-logging.interceptor';
+
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  // Application Logger
+  const logger =
+    new AppLoggerService();
+
+  // Create NestJS application ONLY ONCE
+  const app =
+    await NestFactory.create(
+      AppModule,
+      {
+        logger,
+      },
+    );
 
   // Global API Prefix
-  app.setGlobalPrefix('api/v1');
+  app.setGlobalPrefix(
+    'api/v1',
+  );
 
   // Enable CORS
   app.enableCors({
@@ -18,10 +45,14 @@ async function bootstrap() {
   });
 
   // Security
-  app.use(helmet());
+  app.use(
+    helmet(),
+  );
 
   // Compression
-  app.use(compression());
+  app.use(
+    compression(),
+  );
 
   // Validation
   app.useGlobalPipes(
@@ -32,33 +63,63 @@ async function bootstrap() {
     }),
   );
 
-  // Swagger
-  const config = new DocumentBuilder()
-    .setTitle('AyurScan API')
-    .setDescription('AI-powered Medicinal Plant Identification API')
-    .setVersion('1.0')
-    .addBearerAuth(
-      {
-      type: 'http',
-      scheme: 'bearer',
-      bearerFormat: 'JWT',
-      name: 'Authorization',
-      in: 'header',
-    },
-    'JWT-auth',
-    )
-    .build();
+  // Global Exception Filter
+  app.useGlobalFilters(
+    new HttpExceptionFilter(),
+  );
 
-  const document = SwaggerModule.createDocument(app, config);
+  // Global HTTP Logging
+  app.useGlobalInterceptors(
+    new HttpLoggingInterceptor(),
+  );
 
-  SwaggerModule.setup('api/docs', app, document);
+  // Swagger Configuration
+  const config =
+    new DocumentBuilder()
+      .setTitle(
+        'AyurScan API',
+      )
+      .setDescription(
+        'AI-powered Medicinal Plant Identification API',
+      )
+      .setVersion('1.0')
+      .addBearerAuth(
+        {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          name: 'Authorization',
+          in: 'header',
+        },
+        'JWT-auth',
+      )
+      .build();
 
-  const port = process.env.PORT || 3000;
+  const document =
+    SwaggerModule.createDocument(
+      app,
+      config,
+    );
+
+  SwaggerModule.setup(
+    'api/docs',
+    app,
+    document,
+  );
+
+  // Start Server
+  const port =
+    process.env.PORT || 3000;
 
   await app.listen(port);
 
-  console.log(`🚀 Server: http://localhost:${port}/api/v1`);
-  console.log(`📘 Swagger: http://localhost:${port}/api/docs`);
+  console.log(
+    `🚀 Server: http://localhost:${port}/api/v1`,
+  );
+
+  console.log(
+    `📘 Swagger: http://localhost:${port}/api/docs`,
+  );
 }
 
 bootstrap();
