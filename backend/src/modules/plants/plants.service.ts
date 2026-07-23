@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreatePlantDto } from './dto/create-plant.dto';
@@ -37,14 +37,39 @@ export class PlantsService {
 }
 
   async findOne(id: string) {
-  return this.prisma.plant.findUnique({
-    where: {
-      id,
-    },
-  });
+  const plant =
+    await this.prisma.plant.findUnique({
+      where: {
+        id,
+      },
+    });
+
+  if (!plant) {
+    throw new NotFoundException(
+      'Plant not found',
+    );
+  }
+
+  return plant;
 }
 
-  async update(id: string, updatePlantDto: UpdatePlantDto) {
+  async update(
+  id: string,
+  updatePlantDto: UpdatePlantDto,
+) {
+  const plant =
+    await this.prisma.plant.findUnique({
+      where: {
+        id,
+      },
+    });
+
+  if (!plant) {
+    throw new NotFoundException(
+      'Plant not found',
+    );
+  }
+
   return this.prisma.plant.update({
     where: {
       id,
@@ -54,10 +79,24 @@ export class PlantsService {
 }
 
 async remove(id: string) {
+  const plant =
+    await this.prisma.plant.findUnique({
+      where: {
+        id,
+      },
+    });
+
+  if (!plant) {
+    throw new NotFoundException(
+      'Plant not found',
+    );
+  }
+
   return this.prisma.plant.delete({
     where: {
       id,
     },
   });
 }
+
 }
