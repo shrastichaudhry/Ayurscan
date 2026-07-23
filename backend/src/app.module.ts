@@ -9,6 +9,11 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { PlantsModule } from './modules/plants/plants.module';
 
+import { FavoritesModule } from './modules/favorites/favorites.module';
+import { PredictionsModule } from './modules/predictions/predictions.module';
+
+import { UploadModule } from './modules/upload/upload.module';
+
 // import { APP_GUARD } from '@nestjs/core';
 // import { RolesGuard } from './common/guards/roles.guard';
 
@@ -21,6 +26,9 @@ import { PlantsModule } from './modules/plants/plants.module';
     AuthModule,
     UsersModule,
     PlantsModule,
+    FavoritesModule,
+    PredictionsModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
