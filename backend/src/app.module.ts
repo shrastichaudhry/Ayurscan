@@ -16,6 +16,7 @@ import { UploadModule } from './modules/upload/upload.module';
 
 // import { APP_GUARD } from '@nestjs/core';
 // import { RolesGuard } from './common/guards/roles.guard';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { UploadModule } from './modules/upload/upload.module';
     FavoritesModule,
     PredictionsModule,
     UploadModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
