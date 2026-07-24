@@ -5,7 +5,6 @@ import {
 
 import {
   HealthCheck,
-  HealthCheckResult,
   HealthCheckService,
 } from '@nestjs/terminus';
 
@@ -20,7 +19,7 @@ export class HealthController {
 
   @Get()
   @HealthCheck()
-  check(): Promise<HealthCheckResult> {
+  check() {
     return this.health.check([
       () =>
         this.healthService.checkDatabase(),
