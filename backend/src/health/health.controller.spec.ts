@@ -1,14 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import {
+  HealthCheckService,
+} from '@nestjs/terminus';
+
 import { HealthController } from './health.controller';
 import { HealthService } from './health.service';
-import { HealthCheckService } from '@nestjs/terminus';
-import {
-  describe,
-  beforeEach,
-  it,
-  expect,
-  jest,
-} from '@jest/globals';
 
 describe('HealthController', () => {
   let controller: HealthController;
@@ -19,7 +15,6 @@ describe('HealthController', () => {
         controllers: [
           HealthController,
         ],
-
         providers: [
           {
             provide: HealthCheckService,
@@ -27,7 +22,6 @@ describe('HealthController', () => {
               check: jest.fn(),
             },
           },
-
           {
             provide: HealthService,
             useValue: {
@@ -45,5 +39,15 @@ describe('HealthController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('liveness', () => {
+    it('should return ok status', () => {
+      expect(
+        controller.liveness(),
+      ).toEqual({
+        status: 'ok',
+      });
+    });
   });
 });
