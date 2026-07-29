@@ -18,6 +18,7 @@ import { UploadModule } from './modules/upload/upload.module';
 // import { RolesGuard } from './common/guards/roles.guard';
 import { HealthModule } from './health/health.module';
 import { RedisModule } from './redis/redis.module';
+import { CacheModule } from './cache/cache.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { RedisModule } from './redis/redis.module';
     UploadModule,
     HealthModule,
     RedisModule,
+    CacheModule,
   ],
   controllers: [AppController],
   providers: [AppService],
