@@ -2,12 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { HealthService } from './health.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { HealthIndicatorService } from '@nestjs/terminus';
+import { RedisService } from '../redis/redis.service';
 import {
   describe,
   beforeEach,
   it,
   expect,
   jest,
+  
 } from '@jest/globals';
 
 describe('HealthService', () => {
@@ -25,10 +27,22 @@ describe('HealthService', () => {
               $queryRaw: jest.fn(),
             },
           },
+           
+          {
+            provide: RedisService,
+            useValue: {
+              ping: jest.fn(),
+            },
+          },
 
           {
             provide: HealthIndicatorService,
-            useValue: {},
+            useValue: {
+              check: jest.fn().mockReturnValue({
+                up: jest.fn(),
+                down: jest.fn(),
+              })
+            },
           },
         ],
       }).compile();

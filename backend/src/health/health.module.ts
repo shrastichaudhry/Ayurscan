@@ -7,11 +7,13 @@ import { HealthController } from './health.controller';
 import { HealthService } from './health.service';
 
 import { PrismaModule } from '../prisma/prisma.module';
+import { RedisModule } from '../redis/redis.module';
 
 @Module({
   imports: [
     TerminusModule,
     PrismaModule,
+    RedisModule,
   ],
   controllers: [
     HealthController,

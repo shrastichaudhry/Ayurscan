@@ -23,6 +23,7 @@ export class HealthController {
   check() {
     return this.health.check([
       () => this.healthService.checkDatabase(),
+      () => this.healthService.checkRedis(),
     ]);
   }
 
@@ -42,6 +43,7 @@ export class HealthController {
   readiness() {
     return this.health.check([
       () => this.healthService.checkDatabase(),
+      () => this.healthService.checkRedis(),
     ]);
   }
 }
