@@ -19,7 +19,10 @@ import { FavoritesService } from './favorites.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 
 @ApiTags('Favorites')
-@Controller('favorites')
+@Controller({
+  path: 'favorites',
+  version: '1',
+})
 export class FavoritesController {
   constructor(
     private readonly favoritesService: FavoritesService,

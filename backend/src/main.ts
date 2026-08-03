@@ -6,6 +6,7 @@ import {
 } from '@nestjs/swagger';
 import helmet from 'helmet';
 import compression from 'compression';
+import { VersioningType } from '@nestjs/common';
 
 import { AppModule } from './app.module';
 
@@ -35,7 +36,7 @@ async function bootstrap() {
 
   // Global API Prefix
   app.setGlobalPrefix(
-    'api/v1',
+    'api',
   );
 
   // Enable CORS
@@ -72,6 +73,11 @@ async function bootstrap() {
   app.useGlobalInterceptors(
     new HttpLoggingInterceptor(),
   );
+
+  app.enableVersioning({
+  type: VersioningType.URI,
+  defaultVersion: '1',
+});
 
   // Swagger Configuration
   const config =

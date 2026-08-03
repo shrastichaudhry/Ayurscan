@@ -5,9 +5,10 @@ import { PlantsService } from './plants.service';
 
 import { PrismaModule } from '../../prisma/prisma.module';
 import { RolesGuard } from '../../common/guards/roles.guard';
+import { CacheModule } from '../../cache/cache.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, CacheModule],
   controllers: [PlantsController],
   providers: [PlantsService, RolesGuard],
 })

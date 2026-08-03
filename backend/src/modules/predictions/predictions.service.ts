@@ -6,6 +6,10 @@ import FormData from 'form-data';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreatePredictionDto } from './dto/create-prediction.dto';
 import { v2 as cloudinary } from 'cloudinary';
+import { CacheService } from '../../cache/cache.service';
+import { CACHE_KEYS, } from '../../cache/cache.constants';
+
+import { generateImageHash, } from '../../common/utils/hash.util';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -18,13 +22,15 @@ export class PredictionsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly httpService: HttpService,
+    private readonly cache: CacheService,
   ) {}
 
   async create(
-    userId: string,
-    createPredictionDto: CreatePredictionDto,
-  ) {
-    return this.prisma.predictionHistory.create({
+  userId: string,
+  createPredictionDto: CreatePredictionDto,
+) {
+  const prediction =
+    await this.prisma.predictionHistory.create({
       data: {
         userId,
         plantId: createPredictionDto.plantId,
@@ -32,20 +38,53 @@ export class PredictionsService {
         imageUrl: createPredictionDto.imageUrl,
       },
     });
-  }
+
+  // Invalidate prediction history cache
+  await this.cache.del(
+    CACHE_KEYS.PREDICTIONS(userId),
+  );
+
+  return prediction;
+}
 
   async findAll(userId: string) {
-  return this.prisma.predictionHistory.findMany({
-    where: {
-      userId,
-    },
-    include: {
-      plant: true,
-    },
-    orderBy: {
-      predictedAt: 'desc',
-    },
-  });
+  const cacheKey = CACHE_KEYS.PREDICTIONS(userId);
+
+  const cached =
+    await this.cache.get(cacheKey);
+
+  if (cached) {
+    console.log(
+      '✅ Prediction history loaded from Redis',
+    );
+
+    return cached;
+  }
+
+  const history =
+    await this.prisma.predictionHistory.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        plant: true,
+      },
+      orderBy: {
+        predictedAt: 'desc',
+      },
+    });
+
+  console.log(
+    '📦 Prediction history loaded from Database',
+  );
+
+  await this.cache.set(
+    cacheKey,
+    history,
+    this.cache.getPredictionTTL(),
+  );
+
+  return history;
 }
 
 async remove(
@@ -108,6 +147,10 @@ async remove(
       },
     });
 
+  await this.cache.del(
+    CACHE_KEYS.PREDICTIONS(userId),
+);
+
   // 6. Return response
   return {
     success: true,
@@ -122,6 +165,12 @@ async predictPlant(
   file: Express.Multer.File,
 ) {
   try {
+    const hash =
+      generateImageHash(file.buffer);
+
+    const cacheKey =
+      CACHE_KEYS.PREDICTION(hash);
+
     // ==========================================
     // 1. Upload image to Cloudinary
     // ==========================================
@@ -154,21 +203,42 @@ async predictPlant(
     );
 
     // ==========================================
-    // 2. Send image to FastAPI AI service
-    // ==========================================
+// 2. Check Redis Cache
+// ==========================================
 
-    const formData = new FormData();
+let aiResult;
 
-    formData.append(
-      'file',
-      file.buffer,
-      {
-        filename: file.originalname,
-        contentType: file.mimetype,
-      },
-    );
+const cached =
+  await this.cache.get(cacheKey);
 
-    const response = await firstValueFrom(
+if (cached) {
+
+  console.log(
+    '✅ Prediction loaded from Redis',
+  );
+
+  aiResult = cached;
+
+} else {
+
+  console.log(
+    '📦 Calling AI Service...',
+  );
+
+  const formData =
+    new FormData();
+
+  formData.append(
+    'file',
+    file.buffer,
+    {
+      filename: file.originalname,
+      contentType: file.mimetype,
+    },
+  );
+
+  const response =
+    await firstValueFrom(
       this.httpService.post(
         'http://localhost:8000/predict/',
         formData,
@@ -180,12 +250,20 @@ async predictPlant(
       ),
     );
 
-    const aiResult = response.data;
+  aiResult = response.data;
 
-    console.log(
-      '🤖 AI predicted plant:',
-      aiResult.prediction,
-    );
+  await this.cache.set(
+    cacheKey,
+    aiResult,
+    this.cache.getPredictionTTL(),
+  );
+
+}
+
+console.log(
+  '🤖 AI predicted plant:',
+  aiResult.prediction,
+);
 
     // ==========================================
     // 3. Find predicted plant in database

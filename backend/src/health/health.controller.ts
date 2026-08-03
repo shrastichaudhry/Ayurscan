@@ -10,7 +10,10 @@ import {
 
 import { HealthService } from './health.service';
 
-@Controller('health')
+@Controller({
+  path: 'health',
+  version: '1',
+})
 export class HealthController {
   constructor(
     private readonly health: HealthCheckService,

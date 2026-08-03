@@ -13,7 +13,10 @@ import { RolesGuard } from '../../common/guards/roles.guard';
 import { UpdatePlantDto } from './dto/update-plant.dto';
 
 @ApiTags('Plants')
-@Controller('plants')
+@Controller({
+  path: 'plants',
+  version: '1',
+})
 export class PlantsController {
   constructor(private readonly plantsService: PlantsService) {}
 

@@ -32,12 +32,17 @@ import {
   MaxFileSizeValidator,
   FileTypeValidator,
 } from '@nestjs/common';
+import { QueueService } from '../../queue/queue.service';
 
 @ApiTags('Predictions')
-@Controller('predictions')
+@Controller({
+  path: 'predictions',
+  version: '1',
+})
 export class PredictionsController {
   constructor(
     private readonly predictionsService: PredictionsService,
+    private readonly queueService: QueueService,
   ) {}
 
    @Get()
@@ -121,6 +126,14 @@ async predict(
     req.user.id,
     file,
   );
+}
+
+@Get('queue-test')
+async queueTest() {
+  return this.queueService.addPredictionJob({
+    userId: 'test-user',
+    imageUrl: 'demo.jpg',
+  });
 }
 
 }

@@ -25,7 +25,10 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { UploadService } from './upload.service';
 
 @ApiTags('AI Upload')
-@Controller('upload')
+@Controller({
+  path: 'upload',
+  version: '1',
+})
 export class UploadController {
   constructor(
     private readonly uploadService: UploadService,
