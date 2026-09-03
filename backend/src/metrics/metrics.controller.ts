@@ -1,29 +1,26 @@
 import {
   Controller,
-  Delete,
   Get,
+  Header,
 } from '@nestjs/common';
 
-import { CacheService } from '../cache/cache.service';
+import { PrometheusService } from './prometheus.service';
 
-@Controller('metrics')
+@Controller({
+  path: 'metrics',
+  version: '1',
+})
 export class MetricsController {
   constructor(
-    private readonly cache: CacheService,
+    private readonly prometheus: PrometheusService,
   ) {}
 
-  @Get('cache')
-  cacheMetrics() {
-    return this.cache.getMetrics();
-  }
-
-  @Delete('cache')
-  resetCacheMetrics() {
-    this.cache.resetMetrics();
-
-    return {
-      message:
-        'Cache metrics reset',
-    };
+  @Get()
+  @Header(
+    'Content-Type',
+    'text/plain; version=0.0.4',
+  )
+  async metrics() {
+    return this.prometheus.getMetrics();
   }
 }

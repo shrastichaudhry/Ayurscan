@@ -8,9 +8,10 @@ import { PredictionsService } from './predictions.service';
 import { PrismaModule } from '../../prisma/prisma.module';
 import { CacheModule } from '../../cache/cache.module';
 import { QueueModule } from '../../queue/queue.module';
+import { MetricsModule } from '../../metrics/metrics.module';
 
 @Module({
-  imports: [PrismaModule, HttpModule, CacheModule, QueueModule],
+  imports: [PrismaModule, HttpModule, CacheModule, QueueModule, MetricsModule,],
   controllers: [PredictionsController],
   providers: [PredictionsService],
 })
