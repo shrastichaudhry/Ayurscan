@@ -57,6 +57,9 @@ export class PlantsService {
 
     const plants =
       await this.prisma.plant.findMany({
+        include: {
+          medicinalUses: true,
+        },
         orderBy: {
           commonName: 'asc',
         },
@@ -101,6 +104,9 @@ export class PlantsService {
             mode: 'insensitive',
           },
         },
+        include: {
+          medicinalUses: true,
+        },
         orderBy: {
           commonName: 'asc',
         },
@@ -141,6 +147,9 @@ export class PlantsService {
       await this.prisma.plant.findUnique({
         where: {
           id,
+        },
+        include: {
+          medicinalUses: true,
         },
       });
 

@@ -24,6 +24,11 @@ import {
   generateImageHash,
 } from '../../common/utils/hash.util';
 
+import * as path from 'path';
+import {
+  BadRequestException,
+} from '@nestjs/common';
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -98,7 +103,11 @@ export class PredictionsService {
           userId,
         },
         include: {
-          plant: true,
+          plant: {
+            include: {
+              medicinalUses: true,
+            },
+          },
         },
         orderBy: {
           predictedAt: 'desc',
@@ -261,19 +270,41 @@ export class PredictionsService {
           '📦 Calling AI Service...',
         );
 
-        const formData =
-          new FormData();
+        console.log('UPLOAD FILE:', {
+  originalname: file.originalname,
+  mimetype: file.mimetype,
+  size: file.size,
+});
+     
+    const extension = path
+  .extname(file.originalname)
+  .toLowerCase();
 
-        formData.append(
-          'file',
-          file.buffer,
-          {
-            filename:
-              file.originalname,
-            contentType:
-              file.mimetype,
-          },
-        );
+const mimeTypes: Record<string, string> = {
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.png': 'image/png',
+  '.webp': 'image/webp',
+};
+
+const contentType =
+  mimeTypes[extension];
+
+if (!contentType) {
+  throw new BadRequestException(
+    'Unsupported image format',
+  );
+}
+
+const formData = new FormData();
+    formData.append(
+  'file',
+  file.buffer,
+  {
+    filename: file.originalname,
+    contentType,
+  },
+);
 
         const response =
           await firstValueFrom(
@@ -328,6 +359,9 @@ console.log('🌿 Plants visible to backend:', allPlants);
               mode: 'insensitive',
             },
           },
+          include: {
+            medicinalUses: true,
+          }
         });
 
       if (!plant) {
@@ -349,7 +383,11 @@ console.log('🌿 Plants visible to backend:', allPlants);
             imageUrl,
           },
           include: {
-            plant: true,
+            plant: {
+              include: {
+                medicinalUses: true,
+              },
+            },
           },
         });
 

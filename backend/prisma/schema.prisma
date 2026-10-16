@@ -13,12 +13,12 @@ enum UserRole {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
+  id       String @id @default(cuid())
+  name     String
+  email    String @unique
+  password String
 
-  role      UserRole @default(USER)
+  role UserRole @default(USER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -28,13 +28,13 @@ model User {
 }
 
 model Plant {
-  id               String   @id @default(cuid())
-  commonName       String
-  scientificName   String   @unique
-  family           String
-  medicinalUses    String
-  precautions      String
-  imageUrl         String?
+  id             String         @id @default(cuid())
+  commonName     String
+  scientificName String         @unique
+  family         String
+  medicinalUses  MedicinalUse[]
+  precautions    String
+  imageUrl       String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -66,4 +66,22 @@ model FavoritePlant {
   plant Plant @relation(fields: [plantId], references: [id], onDelete: Cascade)
 
   @@unique([userId, plantId])
+}
+
+model MedicinalUse {
+  id      String @id
+  plantId String
+
+  title          String
+  plantPart      String
+  description    String
+  traditionalUse Boolean @default(true)
+  sourceName     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  plant Plant @relation(fields: [plantId], references: [id], onDelete: Cascade)
+
+  @@index([plantId])
 }

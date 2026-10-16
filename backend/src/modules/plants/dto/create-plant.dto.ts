@@ -13,9 +13,9 @@ export class CreatePlantDto {
   @IsNotEmpty()
   family!: string;
 
-  @IsString()
-  @IsNotEmpty()
-  medicinalUses!: string;
+  //@IsString()
+  //@IsNotEmpty()
+  //medicinalUses!: string;
 
   @IsString()
   @IsNotEmpty()

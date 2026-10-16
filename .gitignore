@@ -1,0 +1,48 @@
+# Secrets and local environment files
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Node dependencies and generated builds
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+dist-ssr/
+**/dist-ssr/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Python caches and virtual environments
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Logs, tests and coverage
+*.log
+coverage/
+.pytest_cache/
+.mypy_cache/
+
+# Editors and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local database and monitoring data
+pgdata/
+redis-data/
+prometheus_data/
+grafana_data/
+
+# Temporary files
+*.tmp
+*.bak
