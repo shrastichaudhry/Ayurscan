@@ -59,10 +59,10 @@ into a single scalable application.
 Version 1.0 supports:
 
 - 🌿 Tulsi
-- 🌳 Neem
+- 🌳 Turmeric
 - 🌵 Aloe Vera
-- 🌱 Giloy
-- 🍃 Ashwagandha
+- 🌱 Amla
+- 🍃 Moringa
 
 The intentionally limited classification scope enables highly accurate predictions.
 
