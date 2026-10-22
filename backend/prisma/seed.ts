@@ -322,31 +322,37 @@ const medicinalUses = [
   },
 ];
 
+
+
+
 async function main() {
-  console.log('🧹 Resetting AyurScan plant knowledge...');
+  console.log("🌿 Seeding AyurScan plant information...");
 
-  await prisma.medicinalUse.deleteMany({});
-  await prisma.predictionHistory.deleteMany({});
-  await prisma.favoritePlant.deleteMany({});
-  await prisma.plant.deleteMany({});
-
-  await prisma.plant.createMany({
+  // Insert plants without deleting existing plants or user data.
+  const plantResult = await prisma.plant.createMany({
     data: plants,
+    skipDuplicates: true,
   });
 
-  await prisma.medicinalUse.createMany({
+  // Insert medicinal uses without deleting existing records.
+  const useResult = await prisma.medicinalUse.createMany({
     data: medicinalUses,
+    skipDuplicates: true,
   });
 
-  console.log('✅ Exactly 5 plants inserted');
-  console.log('✅ 25 medicinal-use records inserted');
-  console.log('🌿 AyurScan plant knowledge seeded successfully');
+  const totalPlants = await prisma.plant.count();
+  const totalUses = await prisma.medicinalUse.count();
+
+  console.log(`✅ New plants inserted: ${plantResult.count}`);
+  console.log(`✅ New medicinal uses inserted: ${useResult.count}`);
+  console.log(`🌱 Total plants in database: ${totalPlants}`);
+  console.log(`📚 Total medicinal uses in database: ${totalUses}`);
 }
 
 main()
   .catch((error) => {
-    console.error('❌ Seed failed:', error);
-    process.exit(1);
+    console.error("❌ Seed failed:", error);
+    process.exitCode = 1;
   })
   .finally(async () => {
     await prisma.$disconnect();
